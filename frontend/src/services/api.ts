@@ -15,6 +15,11 @@ export interface UserPayload {
     role: String
 }
 
+export interface UserLogin {
+  email: String,
+  password: String,
+}
+
 
 
 export const fetchData = async () => {
@@ -24,5 +29,10 @@ export const fetchData = async () => {
 
 export const postData = async (payload: UserPayload) => {
     const response = await api.post('/user', payload);
+    return response.data;
+  };
+
+  export const login = async (payload: UserLogin) => {
+    const response = await api.post('/user/login', payload);
     return response.data;
   };

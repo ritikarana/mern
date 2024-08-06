@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import TextInput from '../../components/TextInput';
 import useSaveUser from '../../hooks/useSaveUser';
 import { UserPayload } from '../../services/api';
+import { styled } from 'styled-components';
+
+const Section = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
 const Register: React.FC = () => {
     const [name, setName] = useState('');
@@ -22,7 +29,7 @@ const Register: React.FC = () => {
         if (age < 1 || age > 100) newErrors.age = "Age must be between 1 and 100";
         if (!password) newErrors.password = "Password is required";
         if (password !== cpassword) newErrors.cpassword = "Passwords do not match";
-    
+
         return newErrors;
     };
 
@@ -61,59 +68,61 @@ const Register: React.FC = () => {
     }, [isSaved, reset]);
 
     return (
-        <form onSubmit={handleSubmit}>
-            {isSaved && <p style={{ color: 'green' }}>Registered Successfully, Please click for Login</p>}
-            <TextInput
-                label="Name"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                error={errors.name}
-            />
-            <TextInput
-                label="Email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={errors.email}
-            />
-            <div>
-                <label htmlFor="age">Age</label>
-                <input
-                    aria-label="Enter your age"
-                    placeholder="Enter your age"
-                    type="number"
-                    value={age}
-                    onChange={(e) => setAge(e.target.valueAsNumber)}
+        <Section>
+            <form onSubmit={handleSubmit}>
+                {isSaved && <p style={{ color: 'green' }}>Registered Successfully, Please click for Login</p>}
+                <TextInput
+                    label="Name"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    error={errors.name}
                 />
-                {errors.age && <p style={{ color: 'red' }}>{errors.age}</p>}
-            </div>
-            <div>
-                <label htmlFor="role">Role</label>
-                <select value={role} onChange={(e) => setRole(e.target.value)} aria-label="role">
-                    <option value="candidate">Candidate</option>
-                    <option value="employee">Employee</option>
-                </select>
-            </div>
-            <TextInput
-                label="Password"
-                type="password"
-                placeholder="Enter your Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                error={errors.password}
-            />
-            <TextInput
-                label="Confirm Password"
-                type="password"
-                placeholder="Confirm your Password"
-                value={cpassword}
-                onChange={(e) => setCPassword(e.target.value)}
-                error={errors.cpassword}
-            />
-            <button type="submit">{loading ? 'Saving...' : 'Register'}</button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-        </form>
+                <TextInput
+                    label="Email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    error={errors.email}
+                />
+                <div>
+                    <label htmlFor="age">Age</label>
+                    <input
+                        aria-label="Enter your age"
+                        placeholder="Enter your age"
+                        type="number"
+                        value={age}
+                        onChange={(e) => setAge(e.target.valueAsNumber)}
+                    />
+                    {errors.age && <p style={{ color: 'red' }}>{errors.age}</p>}
+                </div>
+                <div>
+                    <label htmlFor="role">Role</label>
+                    <select value={role} onChange={(e) => setRole(e.target.value)} aria-label="role">
+                        <option value="candidate">Candidate</option>
+                        <option value="employee">Employee</option>
+                    </select>
+                </div>
+                <TextInput
+                    label="Password"
+                    type="password"
+                    placeholder="Enter your Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    error={errors.password}
+                />
+                <TextInput
+                    label="Confirm Password"
+                    type="password"
+                    placeholder="Confirm your Password"
+                    value={cpassword}
+                    onChange={(e) => setCPassword(e.target.value)}
+                    error={errors.cpassword}
+                />
+                <button type="submit">{loading ? 'Saving...' : 'Register'}</button>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+            </form>
+        </Section>
     );
 };
 

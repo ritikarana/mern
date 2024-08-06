@@ -5,9 +5,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import LandingPageLayout from './layouts/LandingPageLayout';
 
-
 function App() {
-
   const router = createBrowserRouter([
     {
       path: '/',
@@ -18,20 +16,18 @@ function App() {
           element: <Login />
         },
         {
-          path: '/register',
+          path: 'register',
           element: <Register />
         },
         {
-          path: '/dashboard',
+          path: 'dashboard',
           element: <Dashboard />
         }
-      ]
+      ],
     }
-  ])
+  ]);
 
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
