@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { error } from 'console';
 
 const api = axios.create({
   baseURL: 'http://localhost:5000',
@@ -20,6 +21,16 @@ export interface UserLogin {
   password: String,
 }
 
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response && error.response.status === 401) {
+      // Redirect to login page or show a message
+      window.location.href = '/';
+    }
+    return Promise.reject(error);
+  }
+);
 
 
 export const fetchData = async () => {
@@ -35,4 +46,22 @@ export const postData = async (payload: UserPayload) => {
   export const login = async (payload: UserLogin) => {
     const response = await api.post('/user/login', payload);
     return response.data;
+  };
+
+  export const getAllUsers = async () => {
+    try {
+      const { data } = await api.get('/user');
+      return data;
+    } catch (error) {
+      throw new Error(`Failed to fetch users: ${error}`);
+    }
+  };
+
+  export const deleteUser = async (id: string) => {
+    try {
+      const { data } = await api.delete(`/user/${id}`);
+      return data;
+    } catch (error) {
+      throw new Error(`Failed to fetch users: ${error}`);
+    }
   };

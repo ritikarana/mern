@@ -29,7 +29,7 @@ const ErrorMessage = styled.p`
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
-    const token = window.localStorage.getItem('token');
+    const token = window.sessionStorage.getItem('token');
 
     const { fetchToken, data, loading, error } = useLogin();
     const [email, setEmail] = useState("");
@@ -60,7 +60,7 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         if (data && data["token"]) {
-            window.localStorage.setItem("token", data["token"])
+            window.sessionStorage.setItem("token", data["token"])
             navigate("/dashboard");
         }
     }, [data, navigate])

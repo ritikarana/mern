@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import LandingPageLayout from './layouts/LandingPageLayout';
+import { ThemeProvider } from 'styled-components';
+import theme from './utils/theme';
 
 function App() {
   const router = createBrowserRouter([
@@ -22,12 +24,16 @@ function App() {
         {
           path: 'dashboard',
           element: <Dashboard />
+        },
+        {
+          path: '*',
+          element: <div>404 Not Found</div>, // Catch-all route for undefined paths
         }
       ],
     }
   ]);
 
-  return <RouterProvider router={router} />;
+  return <ThemeProvider theme={theme}><RouterProvider router={router} /></ThemeProvider>;
 }
 
 export default App;
