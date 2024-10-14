@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+
 export const TableWrapper = styled.div`
   margin: ${({ theme }) => theme.spacing.medium};
   padding: ${({ theme }) => theme.spacing.large};
@@ -38,7 +39,7 @@ export const ActionButton = styled.button`
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s ease-in-out;
-
+  margin-bottom: 12px;
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary}cc;
   }

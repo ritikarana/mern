@@ -7,16 +7,15 @@ function withAuth<T extends Object>(WrappedComponent: React.ComponentType<T>) {
 
     const navigate = useNavigate();
     const isAuthenticated = sessionStorage.getItem('token');
-   
     useEffect(()=>{
         if(!isAuthenticated){
             console.log('isAuthenticated', isAuthenticated)
             navigate('/')
         }
-    },[isAuthenticated])
+    },[isAuthenticated, navigate])
   
    
-    return <WrappedComponent {...props} />;
+    return  isAuthenticated ? <WrappedComponent {...props} /> : null;
   };
 }
 

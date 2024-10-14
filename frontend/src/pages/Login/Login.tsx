@@ -18,7 +18,7 @@ const Button = styled.button`
 `;
 
 const Section = styled.div`
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
 `;
@@ -86,6 +86,7 @@ const Login: React.FC = () => {
                 {err && <ErrorMessage>{err}</ErrorMessage>}
                 {error && <ErrorMessage>{error}</ErrorMessage>}
                 <Button type="submit">{loading ? 'Loading...' : 'Login'}</Button>
+                <div className="register-link">Click Here for Register</div>
             </form>
         </Section>
     );

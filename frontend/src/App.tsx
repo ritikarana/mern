@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import LandingPageLayout from './layouts/LandingPageLayout';
 import { ThemeProvider } from 'styled-components';
 import theme from './utils/theme';
+import AddUser from './pages/AddUser';
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +25,10 @@ function App() {
         {
           path: 'dashboard',
           element: <Dashboard />
+        },
+        {
+          path: 'addUser',
+          element: <AddUser />
         },
         {
           path: '*',

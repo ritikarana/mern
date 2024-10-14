@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TextInput from '../../components/TextInput';
+import TextInput from '../TextInput';
 import useSaveUser from '../../hooks/useSaveUser';
 import { UserPayload } from '../../services/api';
 import { styled } from 'styled-components';
@@ -11,7 +11,7 @@ const Section = styled.div`
     align-items: center;
 `;
 
-const Register: React.FC = () => {
+const AddUserForm: React.FC = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [age, setAge] = useState(10);
@@ -74,8 +74,8 @@ const Register: React.FC = () => {
 
     return (
         <Section>
-               {isSaved && <p style={{ color: 'green' }}>Registered Successfully, Please click for Login</p>}
             <form onSubmit={handleSubmit}>
+                {isSaved && <p style={{ color: 'green' }}>Registered Successfully, Please click for Login</p>}
                 <TextInput
                     label="Name"
                     placeholder="Enter your name"
@@ -131,4 +131,4 @@ const Register: React.FC = () => {
     );
 };
 
-export default Register;
+export default AddUserForm;

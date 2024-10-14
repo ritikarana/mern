@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loginUser } from '../services/api';
 
 interface UserState {
-  userInfo: { email: string } | null;
+  userInfo: { email: string, password: string } | null;
   loading: boolean;
   error: string | null;
 }
@@ -19,7 +20,7 @@ const userSlice = createSlice({
     loginStart: (state) => {
       state.loading = true;
     },
-    loginSuccess: (state, action: PayloadAction<{ email: string }>) => {
+    loginSuccess: (state, action: PayloadAction<{ email: string, password: string }>) => {
       state.loading = false;
       state.userInfo = action.payload;
     },
@@ -31,6 +32,14 @@ const userSlice = createSlice({
       state.userInfo = null;
     },
   },
+  extraReducers: builder => {
+    builder.addCase(loginUser.pending , (state) => {
+      state.loading = true
+    }).addCase(loginUser.fulfilled , (state, action) => {
+      state.loading = false
+      state.userInfo = action.payload
+    });
+  }
 });
 
 export const { loginStart, loginSuccess, loginFailure, logout } = userSlice.actions;

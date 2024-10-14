@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { Dialog, Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Dialog, Button, DialogActions, DialogTitle } from '@mui/material';
 
 interface DialogBoxProps {
   openDialog: boolean;
   onClose: () => void;
-  userId: string | null;
+  handleDelete: () => void;
 }
 
-const DialogBox: React.FC<DialogBoxProps> = ({ openDialog, onClose, userId }) => {
-    console.log(userId)
+const DialogBox: React.FC<DialogBoxProps> = ({ openDialog, onClose, handleDelete }) => {
   return (
     <React.Fragment>
       <Dialog
@@ -20,14 +19,8 @@ const DialogBox: React.FC<DialogBoxProps> = ({ openDialog, onClose, userId }) =>
         <DialogTitle id="alert-dialog-title">
           {"Are you sure you want to delete it?"}
         </DialogTitle>
-        <DialogContent>
-          {/* You can add more content here, like a confirmation message or warning */}
-        </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Disagree</Button>
-          <Button onClick={onClose} autoFocus>
-             
-          </Button>
+          <Button onClick={handleDelete}>Yes, Agree</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

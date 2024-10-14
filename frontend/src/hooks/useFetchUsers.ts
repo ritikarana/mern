@@ -10,7 +10,7 @@ const useFetchUsers = () => {
     const fetchUsers = async () => {
       try {
         const usersData = await getAllUsers();
-        setUsers(usersData);
+        setUsers(usersData.users);
       } catch (error) {
         setError('Failed to fetch users');
       } finally {
