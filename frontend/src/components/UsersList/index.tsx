@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "../../utils/store";
 import { deleteUser, fetchUsers } from "../../services/api";
 import { setPage, setUsers } from "../../reducers/usersReducer";
 import { Box, Button } from "@mui/material";
+import { useNavigate } from "react-router";
 
 const UsersList: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -14,6 +15,7 @@ const UsersList: React.FC = () => {
     const [open, setOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
     const [searchParam, setSearchParam] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchUsers({
@@ -30,6 +32,8 @@ const UsersList: React.FC = () => {
 
     const handleEdit = (id: string) => {
         // Handle edit functionality here
+        navigate(`/addUser?id=${id}`)
+      
     };
 
     const handleNextPage = () => {
@@ -73,6 +77,7 @@ const UsersList: React.FC = () => {
                             <th>Age</th>
                             <th>Email</th>
                             <th>Role</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -83,6 +88,7 @@ const UsersList: React.FC = () => {
                                 <td>{user["age"]}</td>
                                 <td>{user["email"]}</td>
                                 <td>{user["role"]}</td>
+                                <td>{user["status"]}</td>
                                 <td>
                                     <ActionButton onClick={() => handleEdit(user["_id"])}>Edit</ActionButton>
                                     <DangerButton onClick={() => handleDialog(user["_id"])}>Delete</DangerButton>

@@ -6,6 +6,7 @@ export const SearchForm = styled.form`
     padding: initial;
     border-radius: 0;
     box-shadow: none;
+    width: 100%
 `
 
 export const SearchDiv = styled.div`

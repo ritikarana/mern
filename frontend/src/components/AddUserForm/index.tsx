@@ -61,8 +61,7 @@ const AddUserForm: React.FC = () => {
             setAge(10);
             setPassword('');
             setCPassword('');
-            navigate("/");
-
+            navigate("/dashboard");
         }
 
         const timer = setTimeout(() => {
@@ -70,7 +69,7 @@ const AddUserForm: React.FC = () => {
         }, 5000);
 
         return () => clearTimeout(timer);
-    }, [isSaved, reset]);
+    }, [isSaved, reset, navigate]);
 
     return (
         <Section>

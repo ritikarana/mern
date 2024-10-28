@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import TextInput from "../../components/TextInput";
 import useLogin from "../../hooks/useLogin";
@@ -18,9 +18,21 @@ const Button = styled.button`
 `;
 
 const Section = styled.div`
-    display: grid;
+    display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%
+`;
+
+const RegisterLink =  styled.div`
+    padding: 2% 0;
+    margin: 2% 0;
+    cursor: pointer;
+
+    & a {
+        color: #1b6f5b;
+        font-weight: bold;
+    }
 `;
 
 const ErrorMessage = styled.p`
@@ -57,7 +69,6 @@ const Login: React.FC = () => {
             setError('Login failed. Please try again.');
         }
     }
-
     useEffect(() => {
         if (data && data["token"]) {
             window.sessionStorage.setItem("token", data["token"])
@@ -86,7 +97,7 @@ const Login: React.FC = () => {
                 {err && <ErrorMessage>{err}</ErrorMessage>}
                 {error && <ErrorMessage>{error}</ErrorMessage>}
                 <Button type="submit">{loading ? 'Loading...' : 'Login'}</Button>
-                <div className="register-link">Click Here for Register</div>
+                <RegisterLink><Link to={"/register"}>Click Here for Register</Link></RegisterLink>
             </form>
         </Section>
     );

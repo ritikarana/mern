@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SearchForm , SearchDiv, SearchButton, LeftDiv, RightDiv} from "./style";
+import { useNavigate } from "react-router";
 
 interface SearchBarProps {
    setSearchParam: (searchParam: string) => void;
@@ -8,6 +9,13 @@ interface SearchBarProps {
 
 const Search: React.FC<SearchBarProps> = ({ setSearchParam, intialSearch }) => {
    const [inputValue, setInputValue] = useState('');
+   const navigate = useNavigate();
+
+   const handleAdd = () => {
+      console.log("testing")
+      navigate('/addUser');
+      return null;
+   }
 
    useEffect(() => {
       setInputValue(intialSearch)
@@ -27,7 +35,7 @@ const Search: React.FC<SearchBarProps> = ({ setSearchParam, intialSearch }) => {
          </SearchForm>
          </LeftDiv>
          <RightDiv>
-         <SearchButton>Add New User</SearchButton>
+         <SearchButton onClick={() => handleAdd()}>Add New User</SearchButton>
          </RightDiv>
       </SearchDiv>)
 }
