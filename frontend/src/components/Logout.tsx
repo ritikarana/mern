@@ -1,12 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { AppDispatch, RootState } from "../utils/store";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../reducers/userLoginReducer";
 
 const Logout: React.FC = () => {
     const navigate = useNavigate();
+    const dispatch: AppDispatch = useDispatch();
+    const token = useSelector((state: RootState) => state.login.userInfo?.token);
+
     const handleLogout = () => {
-        window.sessionStorage.removeItem("token");
-        const token = window.sessionStorage.getItem('token');
-        if(!token){
+        dispatch(logout())
+        if (!token) {
             navigate("/");
             return null;
         }

@@ -1,46 +1,56 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { loginUser } from '../services/api';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { UserLogin, login } from '../services/api';
+
+const initialToken = localStorage.getItem('token');
 
 interface UserState {
-  userInfo: { email: string, password: string } | null;
+  userInfo: { email: string, token: string } | null;
   loading: boolean;
   error: string | null;
+  isAuthenticated: boolean;
 }
 
 const initialState: UserState = {
-  userInfo: null,
+  userInfo: initialToken ? { email: '', token: initialToken } : null,
   loading: false,
   error: null,
+  isAuthenticated: initialToken ? true : false
 };
 
-const userSlice = createSlice({
+export const loginUser = createAsyncThunk(
+  'user/loginUser',
+  async (payload: UserLogin, { rejectWithValue }) => {
+    try {
+      const response = await login(payload);
+      const { token, email } = response;
+      localStorage.setItem('token', token);
+      return { token, email };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Login failed');
+    }
+  }
+);
+
+const userLoginSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    loginStart: (state) => {
-      state.loading = true;
-    },
-    loginSuccess: (state, action: PayloadAction<{ email: string, password: string }>) => {
-      state.loading = false;
-      state.userInfo = action.payload;
-    },
-    loginFailure: (state, action: PayloadAction<string>) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
     logout: (state) => {
       state.userInfo = null;
+      localStorage.removeItem("token")
+      state.isAuthenticated = false;
     },
   },
   extraReducers: builder => {
-    builder.addCase(loginUser.pending , (state) => {
+    builder.addCase(loginUser.pending, (state) => {
       state.loading = true
-    }).addCase(loginUser.fulfilled , (state, action) => {
+    }).addCase(loginUser.fulfilled, (state, action) => {
+      state.isAuthenticated = true;
       state.loading = false
       state.userInfo = action.payload
-    });
+    })
   }
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = userSlice.actions;
-export default userSlice.reducer;
+export const { logout } = userLoginSlice.actions;
+export default userLoginSlice.reducer;
