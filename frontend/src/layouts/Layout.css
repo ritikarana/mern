@@ -1,6 +1,8 @@
 /* App.css */
 
 /* General Styles */
+
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -55,9 +57,9 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 35%;
+    width: 30%;
   }
-  
+
   form div {
     margin-bottom: 10px;
   }
@@ -65,6 +67,7 @@ body {
   form label {
     display: block;
     margin-bottom: 5px;
+    color: #024132
   }
   
   form input,
@@ -72,15 +75,26 @@ body {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
+    border: 2px solid #1b6f5b;
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 1.05rem;
+    outline: none;
   }
+
+  form input:focus-visible {
+    border-color: #23322e;
+}
+
   
   form button {
-    background-color: #007bff;
+    background-color: #1b6f5b;
     color: white;
     border: none;
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 1.05rem;
   }
   
   form button:hover {
@@ -91,4 +105,11 @@ body {
      font-size: 16px;
      cursor: pointer;
   }
+
+
+@media only screen and (max-width: 780px) {
+  form {
+    width: 100%;
+  }
+}
   

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import TextInput from "../../components/TextInput";
-import useLogin from "../../hooks/useLogin";
-import { UserLogin } from "../../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../utils/store";
+import { loginUser } from '../../reducers/userLoginReducer';
+
 
 const Button = styled.button`
   background-color: #1b6e5b;
@@ -21,6 +23,18 @@ const Section = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%
+`;
+
+const RegisterLink = styled.div`
+    padding: 2% 0;
+    margin: 2% 0;
+    cursor: pointer;
+
+    & a {
+        color: #1b6f5b;
+        font-weight: bold;
+    }
 `;
 
 const ErrorMessage = styled.p`
@@ -29,41 +43,20 @@ const ErrorMessage = styled.p`
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
-    const token = window.sessionStorage.getItem('token');
-
-    const { fetchToken, data, loading, error } = useLogin();
+    const dispatch: AppDispatch = useDispatch();
+    const { userInfo, loading, error } = useSelector((state: RootState) => state.login);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [err, setError] = useState('');
-
-    useEffect(() => {
-        if (!!token) {
-            navigate("/dashboard");
-        }
-    }, [token, navigate])
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        setError('');
-        if (!email || !password) {
-            setError('Please fill in both fields.');
-            return;
-        }
-        const payload: UserLogin = { email, password };
-        try {
-            await fetchToken(payload);
-        } catch (error) {
-            console.error(error);
-            setError('Login failed. Please try again.');
-        }
+        dispatch(loginUser({ email, password }));
     }
-
     useEffect(() => {
-        if (data && data["token"]) {
-            window.sessionStorage.setItem("token", data["token"])
+        if (userInfo?.token) {
             navigate("/dashboard");
         }
-    }, [data, navigate])
+    }, [userInfo, navigate])
 
     return (
         <Section>
@@ -83,9 +76,9 @@ const Login: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                {err && <ErrorMessage>{err}</ErrorMessage>}
                 {error && <ErrorMessage>{error}</ErrorMessage>}
                 <Button type="submit">{loading ? 'Loading...' : 'Login'}</Button>
+                <RegisterLink><Link to={"/register"}>Click Here for Register</Link></RegisterLink>
             </form>
         </Section>
     );

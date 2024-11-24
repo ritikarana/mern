@@ -14,7 +14,7 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, type, placeholder, 
     return (
         <div>
             <label htmlFor={label}>{label}</label>
-            <input aria-label={placeholder} placeholder={placeholder} type={type} value={value} onChange={onChange} {...rest} />
+            <input aria-label={placeholder} placeholder={placeholder} autoCapitalize="true" type={type} value={value} onChange={onChange} {...rest} />
             {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
     )
