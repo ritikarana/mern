@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { UserLogin, login } from '../services/api';
+import { createSlice } from '@reduxjs/toolkit';
+import { loginUser } from '../services/api';
 
 const initialToken = localStorage.getItem('token');
 
@@ -17,19 +17,6 @@ const initialState: UserState = {
   isAuthenticated: initialToken ? true : false
 };
 
-export const loginUser = createAsyncThunk(
-  'user/loginUser',
-  async (payload: UserLogin, { rejectWithValue }) => {
-    try {
-      const response = await login(payload);
-      const { token, email } = response;
-      localStorage.setItem('token', token);
-      return { token, email };
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Login failed');
-    }
-  }
-);
 
 const userLoginSlice = createSlice({
   name: 'user',

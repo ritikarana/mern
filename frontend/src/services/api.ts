@@ -6,16 +6,23 @@ const api = axios.create({
 });
 
 export interface UserPayload {
-  name: String,
-  age: Number,
-  email: String,
-  password: String,
-  role: String
+  name: string,
+  age: number,
+  email: string,
+  password: string,
+  role: string,
+  status?: string
+}
+
+export interface EditUserPayload {
+  age: number,
+  password: string,
+  role: string
 }
 
 export interface UserLogin {
-  email: String,
-  password: String,
+  email: string,
+  password: string,
 }
 
 axios.interceptors.response.use(
@@ -54,29 +61,21 @@ export const postData = async (payload: UserPayload) => {
   return response.data;
 };
 
-export const loginUser = createAsyncThunk('auth/login', async (payload: UserLogin) => {
-  try{
-  const response = await api.post('/user/login', payload);
-  return response.data;
-  } catch(error){
-    throw new Error(`Unable to Login`)
+
+
+export const loginUser = createAsyncThunk(
+  'user/loginUser',
+  async (payload: UserLogin, { rejectWithValue }) => {
+    try {
+      const response =await api.post('/user/login', payload);
+      const { token, email } = response.data;
+      localStorage.setItem('token', token);
+      return { token, email };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Login failed');
+    }
   }
-})
-
-export const login = async (payload: UserLogin) => {
-  const response = await api.post('/user/login', payload);
-  return response.data;
-};
-
-export const getAllUsers = async () => {
-  try {
-    const { data } = await api.get('/user');
-    return data;
-  } catch (error) {
-    throw new Error(`Failed to fetch users: ${error}`);
-  }
-};
-
+);
 
 export const deleteUser = createAsyncThunk(
   'users/deleteUser',
@@ -90,11 +89,23 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
-// export const deleteUser = async (id: string) => {
-//   try {
-//     const { data } = await api.delete(`/user/${id}`);
-//     return data;
-//   } catch (error) {
-//     throw new Error(`Failed to fetch users: ${error}`);
+// export const getUser = createAsyncThunk(
+//   'users/getUser',
+//   async (id: string) => {
+//     try {
+//       const { data } = await api.get(`/user/${id}`);
+//       return data;
+//     } catch (error) {
+//       throw new Error(`Failed to fetch users: ${error}`);
+//     }
 //   }
-// };
+// );
+
+export const getUser = async (id: string) => {
+  try {
+    const { data } = await api.get(`/user/${id}`);
+    return data;
+  } catch (error) {
+    throw new Error(`Failed to fetch users: ${error}`);
+  }
+};

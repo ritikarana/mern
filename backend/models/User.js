@@ -6,13 +6,13 @@ const userSchema = new moongose.Schema({
     age: { type: Number, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, required: true },
+    role: { type: String, enum: ['employee', 'candidate'], default: 'employee', required: true },
+    status: { type: String, enum: ['Pending', 'Verified', 'Rejected'], default: 'Pending', required: true }
 });
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
     }
-
     try {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
@@ -29,7 +29,7 @@ userSchema.methods.comparePassword = function (candidatePassword) {
 userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id, role: this.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return token;
-  };
+};
 
 
 const User = moongose.model('User', userSchema);

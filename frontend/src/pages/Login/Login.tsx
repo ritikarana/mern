@@ -4,7 +4,7 @@ import styled from "styled-components";
 import TextInput from "../../components/TextInput";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../utils/store";
-import { loginUser } from '../../reducers/userLoginReducer';
+import { loginUser } from '../../services/api';
 
 
 const Button = styled.button`
