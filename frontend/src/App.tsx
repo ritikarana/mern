@@ -7,6 +7,7 @@ import LandingPageLayout from './layouts/LandingPageLayout';
 import { ThemeProvider } from 'styled-components';
 import theme from './utils/theme';
 import AddUser from './pages/AddUser';
+import Edituser from './components/EditUser';
 
 function App() {
   const router = createBrowserRouter([
@@ -29,6 +30,10 @@ function App() {
         {
           path: 'addUser',
           element: <AddUser />
+        },
+        {
+          path: 'user/:id',
+          element: <Edituser />
         },
         {
           path: '*',
